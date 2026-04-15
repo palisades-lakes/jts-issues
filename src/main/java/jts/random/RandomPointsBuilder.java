@@ -34,7 +34,26 @@ import java.util.random.RandomGenerator;
 public class RandomPointsBuilder 
 extends GeometricShapeBuilder
 {
+
+  /** Possible issue: RandomGenerator implementations
+   * are NOT thread safe in general. java.util.Random is thread safe.
+   */
+
   private RandomGenerator randomGenerator;
+
+  /**
+   * Get the pseudo-random number generator used to generate coordinates.
+   * <p>
+   *  WARNING:
+   *  Potential issues if the <code>randomGenerator</code> instance is
+   *  mutable.
+   * </p>
+   */
+  public RandomGenerator getRandomGenerator()
+  {
+    return randomGenerator;
+  }
+
   /**
    * Set the pseudo-random number generator used to generate coordinates.
    *
