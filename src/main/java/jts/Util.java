@@ -21,7 +21,7 @@ import jts.random.RandomPointsBuilder;
  * Shared JTS functions.
  *
  * @author palisades dot lakes at gmail dot com
- * @version "2026-04-14
+ * @version "2026-04-15"
  */
 public final class Util {
 
@@ -29,8 +29,9 @@ public final class Util {
   // class methods
   //--------------------------------------------------------------------
 
+  @SuppressWarnings("unused")
   public static final long generateSeed () {
-    return System.currentTimeMillis(); };
+    return System.currentTimeMillis(); }
 
   //--------------------------------------------------------------------
   // instance slots
@@ -117,7 +118,8 @@ public final class Util {
                 final long seed) {
     _factory = factory;
     _tolerance = tolerance;
-  _randomPointsBuilder = new RandomPointsBuilder(seed,factory); }
+    _randomPointsBuilder = new RandomPointsBuilder(factory);
+    _randomPointsBuilder.setRandomGenerator(new Random(seed)); }
 
   public static final Util make (final GeometryFactory factory,
                                  final double tolerance,

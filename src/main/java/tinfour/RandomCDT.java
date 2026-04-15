@@ -1,34 +1,32 @@
-package jts;
+package tinfour;
 
+import jts.Util;
 import org.locationtech.jts.geom.Geometry;
 import org.locationtech.jts.geom.GeometryCollection;
 
 /**
- * Check ConformingDelaunayTriangulationBuilder with random
- * Delaunay triangulations as input.
- * Windows:
+ * Check conformal delaunay triangulation using Tinfour.
  * <pre>
- * mvn clean install & j --source 25 -ea src/main/java/jts/RandomCDTB.java
+ * mvn clean install & j --source 25 -ea src/main/java/tinfour/RandomCDT.java
  * </pre>
  * <p>
  * TODO: convert to unit test?
  *
  * @author palisades dot lakes at gmail dot com
- * @version "2026-04-15"
+ * @version "2026-04-14"
  */
-public final class RandomCDTB {
+public final class RandomCDT {
 
   //--------------------------------------------------------------------
 
   private static final Util util =
-    Util.make(0.0,2776201805686L);
+    Util.make(0.0,2776201885686L);
 
   //--------------------------------------------------------------------
 
   @SuppressWarnings("SameParameterValue")
   private static final void randomDelaunay (final int npoints) {
     final GeometryCollection points = util.randomPoints(npoints);
-    util.writeWKT(points, "out/wkt/RandomCDTB/points.wkt");
     final GeometryCollection dtbTriangles = util.dtb(points);
     final int nDtbTriangles = dtbTriangles.getNumGeometries();
     System.out.println("dtbTriangles:");
@@ -50,13 +48,13 @@ public final class RandomCDTB {
 
   @SuppressWarnings("unused")
   public static final void main (final String[] args) {
-    RandomCDTB.randomDelaunay(4); }
+    RandomCDT.randomDelaunay(4); }
 
   //--------------------------------------------------------------------
   // disabled constructor
   //--------------------------------------------------------------------
 
-  private RandomCDTB () {
+  private RandomCDT () {
     throw new UnsupportedOperationException(
       "Can't instantiate " + getClass()); }
 

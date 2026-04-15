@@ -1,7 +1,4 @@
 /*
- */
-
-/*
  * Copyright (c) 2016 Martin Davis.
  *
  * All rights reserved. This program and the accompanying materials
@@ -21,6 +18,7 @@ import org.locationtech.jts.geom.*;
 import org.locationtech.jts.shape.GeometricShapeBuilder;
 
 import java.util.Random;
+import java.util.random.RandomGenerator;
 
 /**
  * Creates random point sets contained in a 
@@ -28,8 +26,7 @@ import java.util.Random;
  * 
  * @author mbdavis
  *
- * minimal changes to allow providing a seed, to enable reproducible
- * results.
+ * add setRandomGenerator() method .
  *
  * @author palisades dot lakes at gmail dot com
  * @version 2026-04-14
@@ -37,34 +34,19 @@ import java.util.Random;
 public class RandomPointsBuilder 
 extends GeometricShapeBuilder
 {
-  private final Random random;
+  private RandomGenerator randomGenerator;
+  /**
+   * Set the pseudo-random number generator used to generate coordinates.
+   *
+   * @param prng instance of java.util.RandomGenerator
+   */
+  public void setRandomGenerator(RandomGenerator prng)
+  {
+    randomGenerator = prng;
+  }
+
   protected Geometry maskPoly = null;
   private PointOnGeometryLocator extentLocator;
-
-  /**
-   * Create a shape factory which will create shapes using the given
-   * {@link GeometryFactory}.
-   *
-   * @param seed the seed for the pseudo-random number generator
-   * @param geomFact the factory to use
-   */
-  public RandomPointsBuilder (final long seed,
-                              final GeometryFactory geomFact)
-  {
-    super(geomFact);
-    random = new Random(seed);
-  }
-
-  /**
-   * Create a shape factory which will create shapes using the default
-   * {@link GeometryFactory}
-   *
-   * @param seed the seed for the pseudo-random number generator
-   */
-  public RandomPointsBuilder (final long seed)
-  {
-    this(seed, new GeometryFactory());
-  }
 
   /**
    * Create a shape factory which will create shapes using the default
@@ -73,7 +55,7 @@ extends GeometricShapeBuilder
   public RandomPointsBuilder ()
   {
     super(new GeometryFactory());
-    random = new Random();
+    randomGenerator = new Random();
   }
 
   /**
@@ -85,24 +67,26 @@ extends GeometricShapeBuilder
   public RandomPointsBuilder (GeometryFactory geomFact)
   {
   	super(geomFact);
-    random = new Random();
+    randomGenerator = RandomGenerator.getDefault();
+    // or, to be more consistent with existing code:
+    // randomGenerator = new Random();
   }
 
   /**
    * Sets a polygonal mask.
-   * 
+   *
    * @param mask
    * @throws IllegalArgumentException if the mask is not polygonal
    */
   public void setExtent(Geometry mask)
   {
-  	if (! (mask instanceof Polygonal))
-  		throw new IllegalArgumentException("Only polygonal extents are supported");
-  	this.maskPoly = mask;
-  	setExtent(mask.getEnvelopeInternal());
-  	extentLocator = new IndexedPointInAreaLocator(mask);
+    if (! (mask instanceof Polygonal))
+      throw new IllegalArgumentException("Only polygonal extents are supported");
+    this.maskPoly = mask;
+    setExtent(mask.getEnvelopeInternal());
+    extentLocator = new IndexedPointInAreaLocator(mask);
   }
-  
+
   public Geometry getGeometry()
   {
   	Coordinate[] pts = new Coordinate[numPts];
@@ -132,8 +116,8 @@ extends GeometricShapeBuilder
   
   protected Coordinate createRandomCoord(Envelope env)
   {
-    double x = env.getMinX() + env.getWidth() * Math.random();
-    double y = env.getMinY() + env.getHeight() * Math.random();
+    double x = env.getMinX() + env.getWidth() * randomGenerator.nextDouble();
+    double y = env.getMinY() + env.getHeight() * randomGenerator.nextDouble();
     return createCoord(x, y);
   }
 

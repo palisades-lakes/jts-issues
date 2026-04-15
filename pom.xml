@@ -13,9 +13,11 @@
     <javac.target>25</javac.target>
     <java-version>25</java-version>
     <jts-version>1.20.0</jts-version>
+    <tinfour-version>2.1.9</tinfour-version>
     <lifecycle-mapping-version>1.0.0</lifecycle-mapping-version>
     <maven-assembly-version>3.8.0</maven-assembly-version>
-    <maven.build.timestamp.format>yyyy-MM-dd HH:mm</maven.build.timestamp.format>
+    <maven.build.timestamp.format>yyyy-MM-dd HH:mm
+    </maven.build.timestamp.format>
     <maven-clean-version>3.5.0</maven-clean-version>
     <maven-compiler-version>3.15.0</maven-compiler-version>
     <maven-dependency-version>3.10.0</maven-dependency-version>
@@ -30,84 +32,89 @@
       <groupId>org.locationtech.jts</groupId>
       <artifactId>jts-core</artifactId>
       <version>${jts-version}</version>
-      </dependency>
+    </dependency>
+    <dependency>
+      <groupId>org.tinfour</groupId>
+      <artifactId>TinfourCore</artifactId>
+      <version>${tinfour-version}</version>
+    </dependency>
   </dependencies>
   <build>
-      <plugins>
-        <plugin>
-          <artifactId>maven-clean-plugin</artifactId>
-          <version>${maven-clean-version}</version>
-          <configuration>
-            <failOnError>false</failOnError>
-            <filesets>
-              <fileset>
-                <directory>lib</directory>
-                <includes>
-                  <include>**/*</include>
-                </includes>
-                <followSymlinks>false</followSymlinks>
-              </fileset>
-            </filesets>
-          </configuration>
-        </plugin>
-        <plugin>
-          <groupId>org.apache.maven.plugins</groupId>
-          <artifactId>maven-dependency-plugin</artifactId>
-          <version>${maven-dependency-version}</version>
-          <executions>
-            <execution>
-              <id>copy-dependencies</id>
-              <phase>package</phase>
-              <goals>
-                <goal>copy-dependencies</goal>
-              </goals>
-              <configuration>
-                <outputDirectory>lib</outputDirectory>
-                <overWriteReleases>false</overWriteReleases>
-                <overWriteSnapshots>true</overWriteSnapshots>
-                <overWriteIfNewer>true</overWriteIfNewer>
-                <!-- fileSeparator>/</fileSeparator -->
-              </configuration>
-            </execution>
-          </executions>
-        </plugin>
-        <plugin>
-          <groupId>org.apache.maven.plugins</groupId>
-          <artifactId>maven-compiler-plugin</artifactId>
-          <version>${maven-compiler-version}</version>
-          <configuration>
-            <source>${java-version}</source>
-            <target>${java-version}</target>
-            <release>${java-version}</release>
-            <showDeprecation>false</showDeprecation>
-            <compilerArgs>
-              <arg>--enable-preview</arg>
-            </compilerArgs>
-          </configuration>
-        </plugin>
+    <plugins>
+      <plugin>
+        <artifactId>maven-clean-plugin</artifactId>
+        <version>${maven-clean-version}</version>
+        <configuration>
+          <failOnError>false</failOnError>
+          <filesets>
+            <fileset>
+              <directory>lib</directory>
+              <includes>
+                <include>**/*</include>
+              </includes>
+              <followSymlinks>false</followSymlinks>
+            </fileset>
+          </filesets>
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-dependency-plugin</artifactId>
+        <version>${maven-dependency-version}</version>
+        <executions>
+          <execution>
+            <id>copy-dependencies</id>
+            <phase>package</phase>
+            <goals>
+              <goal>copy-dependencies</goal>
+            </goals>
+            <configuration>
+              <outputDirectory>lib</outputDirectory>
+              <overWriteReleases>false</overWriteReleases>
+              <overWriteSnapshots>true</overWriteSnapshots>
+              <overWriteIfNewer>true</overWriteIfNewer>
+              <!-- fileSeparator>/</fileSeparator -->
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <version>${maven-compiler-version}</version>
+        <configuration>
+          <source>${java-version}</source>
+          <target>${java-version}</target>
+          <release>${java-version}</release>
+          <showDeprecation>false</showDeprecation>
+          <compilerArgs>
+            <arg>--enable-preview</arg>
+          </compilerArgs>
+        </configuration>
+      </plugin>
 
-        <plugin>
-          <artifactId>maven-install-plugin</artifactId>
-          <version>${maven-install-plugin-version}</version>
-        </plugin>
-        <plugin>
-          <artifactId>maven-jar-plugin</artifactId>
-          <version>${maven-jar-version}</version>
-        </plugin>
-        <plugin>
-          <artifactId>maven-resources-plugin</artifactId>
-          <version>${maven-resources-plugin-version}</version>
-        </plugin>
-        <plugin>
-          <groupId>org.apache.maven.plugins</groupId>
-          <artifactId>maven-surefire-plugin</artifactId>
-          <version>${maven-surefire-version}</version>
-          <configuration>
-            <trimStackTrace>false</trimStackTrace>
-            <!-- argLine>-Xmx2G -XX:MaxPermSize=512M</argLine -->
-            <argLine>-Xmx4G -Xms4G</argLine>
-          </configuration>
-        </plugin>
-      </plugins>
+      <plugin>
+        <artifactId>maven-install-plugin</artifactId>
+        <version>${maven-install-plugin-version}</version>
+      </plugin>
+      <plugin>
+        <artifactId>maven-jar-plugin</artifactId>
+        <version>${maven-jar-version}</version>
+      </plugin>
+      <plugin>
+        <artifactId>maven-resources-plugin</artifactId>
+        <version>${maven-resources-plugin-version}</version>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-surefire-plugin</artifactId>
+        <version>${maven-surefire-version}</version>
+        <configuration>
+          <trimStackTrace>false</trimStackTrace>
+          <!-- argLine>-Xmx2G -XX:MaxPermSize=512M</argLine -->
+          <argLine>-Xmx4G -Xms4G</argLine>
+        </configuration>
+      </plugin>
+    </plugins>
   </build>
 </project>
