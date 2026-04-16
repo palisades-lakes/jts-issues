@@ -94,20 +94,44 @@ public final class Util {
         System.out.println("Singular geometry:" + g); } } }
   //--------------------------------------------------------------------
 
-  public final GeometryCollection dtb (final Geometry sites) {
+  public final GeometryCollection dtb (final Geometry sites,
+                                       final double tolerance) {
     final DelaunayTriangulationBuilder dtb =
       new DelaunayTriangulationBuilder();
+    dtb.setTolerance(tolerance);
     dtb.setSites(sites);
     return (GeometryCollection) dtb.getTriangles(getFactory()); }
 
   public final GeometryCollection cdtb (final Geometry sites,
-                                        final Geometry constraints) {
+                                        final Geometry constraints,
+                                        final double tolerance) {
     final ConformingDelaunayTriangulationBuilder cdtb =
       new ConformingDelaunayTriangulationBuilder();
-    cdtb.setTolerance(getTolerance());
+    cdtb.setTolerance(tolerance);
     cdtb.setSites(sites);
     cdtb.setConstraints(constraints);
     return (GeometryCollection) cdtb.getTriangles(getFactory()); }
+
+  //-------------------------------------------------------------------
+
+  public final void checkCdtb (final String name,
+                               final Geometry sites,
+                               final Geometry constraints,
+                               final double tolerance,
+                               final int expectedTriangles) {
+    final GeometryCollection triangles =
+      cdtb(sites,constraints,tolerance);
+    System.out.println("\n" + name + ": " + tolerance);
+    final int nTriangles = triangles.getNumGeometries();
+    if (nTriangles != expectedTriangles) {
+      System.out.println("nTriangles != expected: " +
+                           expectedTriangles + " != " + nTriangles); }
+    for (int i = 0; i < nTriangles; ++i) {
+      final Geometry triangle = triangles.getGeometryN(i);
+      final double area = triangle.getArea();
+      //System.out.println(i + ": " + area);
+      if (0.0 == area) {
+        System.out.println("Singular:" + triangle); } } }
 
   //--------------------------------------------------------------------
   // constructor
@@ -132,7 +156,6 @@ public final class Util {
 
   public static final Util make (final long seed) {
     return make(0.0,seed); }
-
 
   //--------------------------------------------------------------------
 } // end class

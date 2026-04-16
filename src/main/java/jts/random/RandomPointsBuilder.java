@@ -35,8 +35,9 @@ public class RandomPointsBuilder
 extends GeometricShapeBuilder
 {
 
-  /** Possible issue: RandomGenerator implementations
-   * are NOT thread safe in general. java.util.Random is thread safe.
+  /** Possible issue: <code>RandomGenerator</code> implementations
+   * are NOT thread safe in general.
+   * <code>java.util.Random</code> is thread safe.
    */
 
   private RandomGenerator randomGenerator;

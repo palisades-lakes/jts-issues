@@ -38,6 +38,11 @@
       <artifactId>TinfourCore</artifactId>
       <version>${tinfour-version}</version>
     </dependency>
+    <dependency>
+      <groupId>org.tinfour</groupId>
+      <artifactId>TinfourDemo</artifactId>
+      <version>${tinfour-version}</version>
+    </dependency>
   </dependencies>
   <build>
     <plugins>

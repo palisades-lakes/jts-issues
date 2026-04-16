@@ -14,7 +14,7 @@ import org.locationtech.jts.geom.GeometryCollection;
  * TODO: convert to unit test?
  *
  * @author palisades dot lakes at gmail dot com
- * @version "2026-04-15"
+ * @version "2026-04-16"
  */
 public final class RandomCDTB {
 
@@ -29,12 +29,12 @@ public final class RandomCDTB {
   private static final void randomDelaunay (final int npoints) {
     final GeometryCollection points = util.randomPoints(npoints);
     util.writeWKT(points, "out/wkt/RandomCDTB/points.wkt");
-    final GeometryCollection dtbTriangles = util.dtb(points);
+    final GeometryCollection dtbTriangles = util.dtb(points,0.0);
     final int nDtbTriangles = dtbTriangles.getNumGeometries();
     System.out.println("dtbTriangles:");
     util.printAreas(dtbTriangles);
     util.writeWKT(dtbTriangles, "out/wkt/RandomCDTB/dtbTriangles.wkt");
-    final GeometryCollection cdtbTriangles = util.cdtb(points,dtbTriangles);
+    final GeometryCollection cdtbTriangles = util.cdtb(points,dtbTriangles,0.0);
     util.writeWKT(cdtbTriangles, "out/wkt/RandomCDTB/cdtbTriangles.wkt");
     final int nCdtbTriangles = cdtbTriangles.getNumGeometries();
     System.out.println("cdtbTriangles:" + nCdtbTriangles);
