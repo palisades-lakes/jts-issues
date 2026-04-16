@@ -17,7 +17,7 @@ import org.locationtech.jts.geom.GeometryCollection;
 public final class Tolerance {
 
   //--------------------------------------------------------------------
-  private static final Util util = Util.make(1775201860794L);
+  private static final JTS util = JTS.make(1775201860794L);
   //--------------------------------------------------------------------
   /** Giving 3 points and no constraints to
    * ConformingDelaunayTriangulationBuilder produces the expected

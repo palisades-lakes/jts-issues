@@ -23,7 +23,7 @@ import jts.random.RandomPointsBuilder;
  * @author palisades dot lakes at gmail dot com
  * @version "2026-04-15"
  */
-public final class Util {
+public final class JTS {
 
   //--------------------------------------------------------------------
   // class methods
@@ -67,14 +67,18 @@ public final class Util {
 
   //--------------------------------------------------------------------
 
-  public final Geometry readWKT (final String wkt) {
-    try { return new WKTReader(getFactory()).read(wkt); }
+  public static final Geometry readWKT (final String wkt,
+                                        final GeometryFactory factory) {
+    try { return new WKTReader(factory).read(wkt); }
     catch (final ParseException e) { throw new RuntimeException(e); } }
+
+  public final Geometry readWKT (final String wkt) {
+   return readWKT(wkt,getFactory()); }
 
   //--------------------------------------------------------------------
 
   @SuppressWarnings("ResultOfMethodCallIgnored")
-  public final void writeWKT (final Geometry g,
+  public static final void writeWKT (final Geometry g,
                               final String dest) {
     final File f = new File(dest);
     f.getParentFile().mkdirs();
@@ -83,7 +87,7 @@ public final class Util {
     catch (final IOException e) { throw new RuntimeException(e); } }
 
   //--------------------------------------------------------------------
-  public final void printAreas (final GeometryCollection geometries) {
+  public static final void printAreas (final GeometryCollection geometries) {
     final int n = geometries.getNumGeometries();
     System.out.println("n:" + n);
     for (int i = 0; i < n; ++i) {
@@ -137,24 +141,24 @@ public final class Util {
   // constructor
   //--------------------------------------------------------------------
 
-  private Util (final GeometryFactory factory,
-                final double tolerance,
-                final long seed) {
+  private JTS (final GeometryFactory factory,
+               final double tolerance,
+               final long seed) {
     _factory = factory;
     _tolerance = tolerance;
     _randomPointsBuilder = new RandomPointsBuilder(factory);
     _randomPointsBuilder.setRandomGenerator(new Random(seed)); }
 
-  public static final Util make (final GeometryFactory factory,
-                                 final double tolerance,
-                                 final long seed) {
-    return new Util(factory, tolerance,seed); }
+  public static final JTS make (final GeometryFactory factory,
+                                final double tolerance,
+                                final long seed) {
+    return new JTS(factory, tolerance, seed); }
 
-  public static final Util make (final double tolerance,
-                                 final long seed) {
+  public static final JTS make (final double tolerance,
+                                final long seed) {
     return make(new GeometryFactory(), tolerance,seed); }
 
-  public static final Util make (final long seed) {
+  public static final JTS make (final long seed) {
     return make(0.0,seed); }
 
   //--------------------------------------------------------------------

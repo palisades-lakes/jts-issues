@@ -20,22 +20,22 @@ public final class RandomCDTB {
 
   //--------------------------------------------------------------------
 
-  private static final Util util =
-    Util.make(0.0,2776201805686L);
+  private static final JTS util =
+    JTS.make(0.0, 2776201805686L);
 
   //--------------------------------------------------------------------
 
   @SuppressWarnings("SameParameterValue")
   private static final void randomDelaunay (final int npoints) {
     final GeometryCollection points = util.randomPoints(npoints);
-    util.writeWKT(points, "out/wkt/RandomCDTB/points.wkt");
+    JTS.writeWKT(points, "out/wkt/RandomCDTB/points.wkt");
     final GeometryCollection dtbTriangles = util.dtb(points,0.0);
     final int nDtbTriangles = dtbTriangles.getNumGeometries();
     System.out.println("dtbTriangles:");
-    util.printAreas(dtbTriangles);
-    util.writeWKT(dtbTriangles, "out/wkt/RandomCDTB/dtbTriangles.wkt");
+    JTS.printAreas(dtbTriangles);
+    JTS.writeWKT(dtbTriangles, "out/wkt/RandomCDTB/dtbTriangles.wkt");
     final GeometryCollection cdtbTriangles = util.cdtb(points,dtbTriangles,0.0);
-    util.writeWKT(cdtbTriangles, "out/wkt/RandomCDTB/cdtbTriangles.wkt");
+    JTS.writeWKT(cdtbTriangles, "out/wkt/RandomCDTB/cdtbTriangles.wkt");
     final int nCdtbTriangles = cdtbTriangles.getNumGeometries();
     System.out.println("cdtbTriangles:" + nCdtbTriangles);
     for (int i = 0; i < nCdtbTriangles; ++i) {

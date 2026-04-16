@@ -19,7 +19,7 @@ import org.locationtech.jts.triangulate.ConformingDelaunayTriangulationBuilder;
 public final class CDTBIssues {
 
   //--------------------------------------------------------------------
-  private static final Util util = Util.make(1776201860794L);
+  private static final JTS util = JTS.make(1776201860794L);
   //--------------------------------------------------------------------
   /** Giving 3 points and no constraints to
    * ConformingDelaunayTriangulationBuilder produces the expected
@@ -40,7 +40,7 @@ public final class CDTBIssues {
     cdtb.setSites(points);
     final GeometryCollection triangles =
       (GeometryCollection) cdtb.getTriangles(util.getFactory());
-    util.writeWKT(triangles, "out/wkt/threePoints.wkt");
+    JTS.writeWKT(triangles, "out/wkt/threePoints.wkt");
     final int nTriangles = triangles.getNumGeometries();
     System.out.println("\nthreePoints:");
     for (int i = 0; i < nTriangles; ++i) {
@@ -89,7 +89,7 @@ public final class CDTBIssues {
     cdtb.setConstraints(edges);
     final GeometryCollection triangles =
       (GeometryCollection) cdtb.getTriangles(util.getFactory());
-    util.writeWKT(triangles, "out/wkt/threePointsEdges.wkt");
+    JTS.writeWKT(triangles, "out/wkt/threePointsEdges.wkt");
     final int nTriangles = triangles.getNumGeometries();
     assert (3 == nTriangles)
       : "n geometries != 3: " + nTriangles;
@@ -128,7 +128,7 @@ public final class CDTBIssues {
     cdtb.setConstraints(edges);
     final GeometryCollection triangles =
       (GeometryCollection) cdtb.getTriangles(util.getFactory());
-    util.writeWKT(triangles, "out/wkt/threeEdges.wkt");
+    JTS.writeWKT(triangles, "out/wkt/threeEdges.wkt");
     final int nTriangles = triangles.getNumGeometries();
     assert (3 == nTriangles)
       : "n geometries != 3: " + nTriangles;
@@ -164,7 +164,7 @@ public final class CDTBIssues {
     cdtb.setConstraints(polygon);
     final GeometryCollection triangles =
       (GeometryCollection) cdtb.getTriangles(util.getFactory());
-    util.writeWKT(triangles, "out/wkt/oneTriangle.wkt");
+    JTS.writeWKT(triangles, "out/wkt/oneTriangle.wkt");
     final int nTriangles = triangles.getNumGeometries();
     assert (3 == nTriangles)
       : "n geometries != 3: " + nTriangles;
