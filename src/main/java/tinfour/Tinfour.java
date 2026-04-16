@@ -85,6 +85,7 @@ public final class Tinfour {
     for (int i = 0; i < gc.getNumGeometries(); i++) {
       tmp.add(toTinfour((Point) gc.getGeometryN(i))); }
     return Collections.unmodifiableList(tmp); }
+
   /**
    * Fails if not a collection of LineStrings
    */
@@ -121,8 +122,9 @@ public final class Tinfour {
     final TriangleCount stats = tin.countTriangles();
     final int nTriangles = stats.getCount();
     try {
-      TinRenderingUtility.drawTin(tin, 500, 500,
-                                  new File(name + ".png")); }
+      TinRenderingUtility.drawTin(
+        tin, 1024, 1024,
+        new File("out/png/tinfour/" + name + ".png")); }
     catch (final IOException e) { throw new RuntimeException(e); }
     if (nTriangles == expectedTriangles) {
       System.out.println("Success."); }

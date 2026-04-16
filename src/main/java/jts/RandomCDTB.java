@@ -8,7 +8,7 @@ import org.locationtech.jts.geom.GeometryCollection;
  * Delaunay triangulations as input.
  * Windows:
  * <pre>
- * mvn clean install & j --source 25 -ea src/main/java/jts/RandomCDTB.java
+ * mvn install & j --source 25 -ea src/main/java/jts/RandomCDTB.java
  * </pre>
  * <p>
  * TODO: convert to unit test?
@@ -28,12 +28,12 @@ public final class RandomCDTB {
   @SuppressWarnings("SameParameterValue")
   private static final void randomDelaunay (final int npoints) {
     final GeometryCollection points = util.randomPoints(npoints);
-    JTS.writeWKT(points, "out/wkt/RandomCDTB/points.wkt");
+    JTS.writeWKT(points, "out/wkt/RandomCDTB/points" + npoints + ".wkt");
     final GeometryCollection dtbTriangles = util.dtb(points,0.0);
     final int nDtbTriangles = dtbTriangles.getNumGeometries();
     System.out.println("dtbTriangles:");
     JTS.printAreas(dtbTriangles);
-    JTS.writeWKT(dtbTriangles, "out/wkt/RandomCDTB/dtbTriangles.wkt");
+    JTS.writeWKT(dtbTriangles, "out/wkt/RandomCDTB/dtbTriangles" + nDtbTriangles + ".wkt");
     final GeometryCollection cdtbTriangles = util.cdtb(points,dtbTriangles,0.0);
     JTS.writeWKT(cdtbTriangles, "out/wkt/RandomCDTB/cdtbTriangles.wkt");
     final int nCdtbTriangles = cdtbTriangles.getNumGeometries();

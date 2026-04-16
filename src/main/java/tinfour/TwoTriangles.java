@@ -10,49 +10,56 @@ import java.util.List;
 
 /**
  * Compare results from Tinfour to JTS.
- * <p>>
+ * <p>
  * Windows:
  * <pre>
- * mvn install & j --source 25 -ea src/main/java/tinfour/OneTriangle.java
+ * mvn install & j --source 25 -ea src/main/java/tinfour/TwoTriangles.java
  * </pre>
- * <p>
  *
  * @author palisades dot lakes at gmail dot com
  * @version "2026-04-16
  */
-public final class OneTriangle {
+public final class TwoTriangles {
 
   //--------------------------------------------------------------------
-  /** Giving 3 points and the corresponding 3 edges as constraints to
-   * <code>IncrementalTin</code> the expected single triangle.
+  /** Giving 4 points as sites and the 5 edges of a Delaunay
+   * triangulation of those site as constraints to
+   * <code>IncrementalTin</code>
+   * produces ?.
    */
 
-  private static final void threePointsEdges (final double estimatedPointSpacing) {
+  private static final void fourPointsFiveEdges (final double estimatedPointSpacing) {
     final GeometryFactory factory = new GeometryFactory();
     final GeometryCollection points = (GeometryCollection)
         JTS.readWKT(
-          "GEOMETRYCOLLECTION(" +
-            "  POINT (-221.72957795130824 -26.56505117707799)," +
-            "  POINT (-149.72957795130824 -26.56505117707799)," +
-            "  POINT (0 -90))",
+          """
+          MULTIPOINT ((-0.5681021283174366 -0.8360713525676495),
+                      (-0.3420493618720524 -0.7052562923760732),
+                      (-0.6006199815294515 0.2586678428458957),
+                      (-0.1177819608189914 0.6301871424709511))
+          """,
           factory);
     final GeometryCollection edges = (GeometryCollection)
         JTS.readWKT(
           """
           GEOMETRYCOLLECTION (
-            LINESTRING (-221.72957795130824 -26.56505117707799,
-                        -149.72957795130824 -26.56505117707799),
-            LINESTRING (-221.72957795130824 -26.56505117707799,
-                        0 -90),
-            LINESTRING (-149.72957795130824 -26.56505117707799,
-                        0 -90))
+          LINESTRING (-0.6006199815294515  0.2586678428458957,
+                      -0.5681021283174366 -0.8360713525676495),
+          LINESTRING (-0.5681021283174366 -0.8360713525676495,
+                      -0.3420493618720524 -0.7052562923760732),
+          LINESTRING (-0.3420493618720524 -0.7052562923760732,
+                      -0.6006199815294515  0.2586678428458957),
+          LINESTRING (-0.3420493618720524 -0.7052562923760732,
+                      -0.1177819608189914  0.6301871424709511),
+          LINESTRING (-0.1177819608189914  0.6301871424709511,
+                      -0.6006199815294515  0.2586678428458957))
           """,
           factory);
     final List<Vertex> sites = Tinfour.toSites(points);
     final List<IConstraint> constraints = Tinfour.toConstraints(edges);
-    Tinfour.checkCdt( "threePointsEdges",
+    Tinfour.checkCdt( "fourPointsFiveEdges",
                     sites, constraints,
-                    estimatedPointSpacing, 1); }
+                    estimatedPointSpacing, 2); }
 
   //--------------------------------------------------------------------
 
@@ -61,13 +68,13 @@ public final class OneTriangle {
     for (int i = 0; i < 8; i++) {
       final double estimatedPointSpacing =
         Double.parseDouble("1.0e-" + i);
-      threePointsEdges(estimatedPointSpacing);
+      fourPointsFiveEdges(estimatedPointSpacing);
     } }
 
   //--------------------------------------------------------------------
   // disabled constructor
   //--------------------------------------------------------------------
-  private OneTriangle () {
+  private TwoTriangles () {
     throw new UnsupportedOperationException(
       "Can't instantiate " + getClass());
   }
