@@ -5,10 +5,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Random;
 
-import org.locationtech.jts.geom.Envelope;
-import org.locationtech.jts.geom.Geometry;
-import org.locationtech.jts.geom.GeometryCollection;
-import org.locationtech.jts.geom.GeometryFactory;
+import org.locationtech.jts.geom.*;
 import org.locationtech.jts.io.ParseException;
 import org.locationtech.jts.io.WKTReader;
 import org.locationtech.jts.io.WKTWriter;
@@ -21,7 +18,7 @@ import jts.random.RandomPointsBuilder;
  * Shared JTS functions.
  *
  * @author palisades dot lakes at gmail dot com
- * @version "2026-04-15"
+ * @version 2026-04-17
  */
 public final class JTS {
 
@@ -49,6 +46,22 @@ public final class JTS {
 
   //--------------------------------------------------------------------
   // instance methods
+  //--------------------------------------------------------------------
+
+  public final Polygon hexagon () {
+    final double x = Math.cos(Math.PI/3.0);
+    final double y = Math.sin(Math.PI/3.0);
+    return getFactory().createPolygon(
+      new Coordinate[]{
+        new Coordinate(1.0, 0.0),
+        new Coordinate( x, y),
+        new Coordinate(-x, y),
+        new Coordinate(-1.0, 0.0),
+        new Coordinate(-x,-y),
+        new Coordinate( x,-y),
+        new Coordinate(1.0, 0.0),
+      }); }
+
   //--------------------------------------------------------------------
 
   public final GeometryCollection randomPoints (final int npoints,
@@ -125,6 +138,7 @@ public final class JTS {
                                final int expectedTriangles) {
     final GeometryCollection triangles =
       cdtb(sites,constraints,tolerance);
+    JTS.writeWKT(triangles, "out/wkt/" + name + ".wkt");
     System.out.println("\n" + name + ": " + tolerance);
     final int nTriangles = triangles.getNumGeometries();
     if (nTriangles != expectedTriangles) {
