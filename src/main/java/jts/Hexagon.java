@@ -1,8 +1,6 @@
 package jts;
 
 import org.locationtech.jts.geom.Geometry;
-import org.locationtech.jts.geom.GeometryCollection;
-import org.locationtech.jts.triangulate.ConformingDelaunayTriangulationBuilder;
 
 /**
  * Demonstrate edge case in ConformingDelaunayTriangulationBuilder.
@@ -32,9 +30,9 @@ public final class Hexagon {
     final Geometry triangles = jts.readWKT(
       """
       GEOMETRYCOLLECTION (
-        POLYGON ((-0.5000000000000001 0.8660254037844386, 
+        POLYGON ((-0.5000000000000001 0.8660254037844386,
                   -1 0, 
-                   0.5000000000000001 0.8660254037844386, 
+                   0.5000000000000001 0.8660254037844386,
                   -0.5000000000000001 0.8660254037844386)),
         POLYGON ((0.5000000000000001 0.8660254037844386,
                   -1 0,
@@ -79,8 +77,8 @@ public final class Hexagon {
 
   @SuppressWarnings("unused")
   public static final void main (final String[] args) {
-   // Hexagon.emptyHexagon(0.0);
-    //Hexagon.triangulatedHexagon(0.0);
+    Hexagon.emptyHexagon(0.0);
+    Hexagon.triangulatedHexagon(0.0);
     Hexagon.hulledHexagon(0.0);
 //    for (int i = 0; i < 8; i++) {
 //      final double tolerance = Double.parseDouble("1.0e-" + i);
